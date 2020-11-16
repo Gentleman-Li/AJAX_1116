@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>getone</title>
+    <style>
+        #content{
+            width: 150px;
+            height: 150px;
+            margin-top: 20px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <h3>该页面是测试：发送请求</h3>
+    <button id="btn">点我发送请求</button>
+    <div id="content"></div>
+    <script>
+        const btn = document.getElementById('btn');
+        const content = document.getElementById('content');
+        //ajax的最大优势：无刷新获取数据
+        btn.onclick = ()=>{
+            //创建xhr实例对象
+            const xhr = new XMLHttpRequest();
+            //准备状态转化函数绑定
+            xhr.onreadystatechange = ()=>{
+                if(xhr.readyState === 4){
+                    console.log(xhr.response);
+                    content.innerHTML = `<h3>${xhr.response}</h3>`
+                }
+            }
+
+            //指定发送请求的：method、url
+            xhr.open('GET','http://127.0.0.1:8080/getone');
+            //发送请求
+            xhr.send();
+
+        }
+    </script>
+</body>
+</html>

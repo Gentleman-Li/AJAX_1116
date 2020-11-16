@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gettwo</title>
+    <style>
+        #content{
+            width: 150px;
+            height: 150px;
+            margin-top: 20px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <h3>该页面是测试：发送post请求</h3>
+    <button id="btn">点我发送请求</button>
+    <div id="content"></div>
+    <script>
+        const btn = document.getElementById('btn');
+        const content = document.getElementById('content');
+        //ajax的最大优势：无刷新获取数据
+        btn.onclick = ()=>{
+            //创建xhr实例对象
+            const xhr = new XMLHttpRequest();
+            //准备状态转化函数绑定
+            xhr.onreadystatechange = ()=>{
+                if(xhr.readyState === 4){
+                    console.log(xhr.response);
+                    content.innerHTML = `<h3>${xhr.response}</h3>`
+                }
+            }
+            
+            //指定发送请求的：method、url
+            xhr.open('POST','http://127.0.0.1:8080/gettwo');
+
+
+            //追加请求头的目的在于，服务器虽然能够设置对编码形式的解析，却没有收到被解析的数据，所以需要请求头设置编码的形式
+            //追加请求头用于标识携带请求体参数的编码形式---urlencoded
+            // xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+
+            //追加请求头用于标识携带请求体参数的编码形式---json
+            xhr.setRequestHeader('content-type','application/json');
+            
+            //发送请求
+            // xhr.send('name=大刘&age=18');
+
+            //发送json格式的请求
+            const person = {name:'sun',age:40};
+            xhr.send(JSON.stringify(person));
+            // xhr.send();
+
+        }
+    </script>
+</body>
+</html>
